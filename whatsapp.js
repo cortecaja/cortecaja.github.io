@@ -14,7 +14,7 @@ formulario.addEventListener('submit', async (event) => {
     email: document.querySelector('#email').value.trim(),
   };
 
-  console.log('Enviando datos:', formData); // Registra los datos enviados
+  console.log('Datos a enviar:', formData);
 
   try {
     const response = await fetch(scriptURL, {
@@ -23,12 +23,14 @@ formulario.addEventListener('submit', async (event) => {
       body: JSON.stringify(formData),
     });
 
-    console.log('Respuesta del servidor:', response); // Registra la respuesta
+    console.log('Respuesta HTTP:', response);
 
-    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
     const result = await response.json();
-    console.log('Resultado JSON:', result); // Registra el JSON resultante
+    console.log('Resultado JSON:', result);
 
     if (result.success) {
       alert('Formulario enviado exitosamente.');
@@ -36,12 +38,11 @@ formulario.addEventListener('submit', async (event) => {
       alert(`Error del servidor: ${result.error}`);
     }
   } catch (error) {
-    console.error('Error al conectar con el servidor:', error); // Detalla el error
+    console.error('Error al conectar con el servidor:', error);
     alert('Error al conectar con el servidor. Verifica la consola para más detalles.');
   } finally {
     buttonSubmit.innerHTML = '<i class="fab fa-whatsapp"></i> Enviar WhatsApp';
     buttonSubmit.disabled = false;
   }
 });
-
 
